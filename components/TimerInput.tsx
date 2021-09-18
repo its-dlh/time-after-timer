@@ -15,13 +15,46 @@ export default function TimerInput({ timer, onChange }: TimerInputProps) {
     const [minutes, setMinutes] = useState(`${timer?.minutes || 0}`);
     const [seconds, setSeconds] = useState(`${timer?.seconds || 0}`);
 
+    function updateTimer() {
+        let numMinutes = parseInt(minutes) || 0;
+        let numSeconds = parseInt(seconds) || 0;
+
+        if (numMinutes < 0) numMinutes = 0;
+
+        while (numSeconds >= 60) {
+            numSeconds -= 60;
+            numMinutes++
+        }
+
+        if (numSeconds < 0) numSeconds = 0;
+
+        if (onChange) {
+            console.log('firing onChange', {numMinutes, numSeconds});
+
+            onChange({
+                minutes: numMinutes,
+                seconds: numSeconds
+            })
+        }
+    }
+
+    function updateMinutes(minutes: string) {
+        setMinutes(minutes);
+        updateTimer();
+    }
+
+    function updateSeconds(seconds: string) {
+        setSeconds(seconds);
+        updateTimer();
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.inputContainer}>
                 <TextInput 
                     style={styles.numberInput}
                     keyboardType='numeric'
-                    onChangeText={setMinutes}
+                    onChangeText={updateMinutes}
                     defaultValue={minutes}
                     maxLength={10}  //setting limit of input
                 />
@@ -38,7 +71,7 @@ export default function TimerInput({ timer, onChange }: TimerInputProps) {
                 <TextInput 
                     style={styles.numberInput}
                     keyboardType='numeric'
-                    onChangeText={setSeconds}
+                    onChangeText={updateSeconds}
                     defaultValue={seconds}
                     maxLength={10}  //setting limit of input
                 />
