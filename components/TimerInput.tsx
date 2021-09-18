@@ -12,8 +12,8 @@ export interface TimerInputProps {
 }
 
 export default function TimerInput({ timer, onChange }: TimerInputProps) {
-    const [minutes, setMinutes] = useState(timer?.minutes || 0);
-    const [seconds, setSeconds] = useState(timer?.seconds || 0);
+    const [minutes, setMinutes] = useState(`${timer?.minutes || 0}`);
+    const [seconds, setSeconds] = useState(`${timer?.seconds || 0}`);
 
     return (
         <View style={styles.container}>
@@ -21,8 +21,8 @@ export default function TimerInput({ timer, onChange }: TimerInputProps) {
                 <TextInput 
                     style={styles.numberInput}
                     keyboardType='numeric'
-                    onChangeText={(value)=> setMinutes(parseInt(value))}
-                    defaultValue={`${minutes || ''}`}
+                    onChangeText={setMinutes}
+                    defaultValue={minutes}
                     maxLength={10}  //setting limit of input
                 />
                 
@@ -38,8 +38,8 @@ export default function TimerInput({ timer, onChange }: TimerInputProps) {
                 <TextInput 
                     style={styles.numberInput}
                     keyboardType='numeric'
-                    onChangeText={(value)=> setSeconds(parseInt(value))}
-                    defaultValue={`${seconds || ''}`}
+                    onChangeText={setSeconds}
+                    defaultValue={seconds}
                     maxLength={10}  //setting limit of input
                 />
                 
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // marginHorizontal: 50,
         borderRadius: 8,
-        shadowRadius: 8,
-        shadowOpacity: 0.5,
+        shadowRadius: 4,
+        shadowOpacity: 0.2,
         shadowColor: '#000',
         elevation: 3,
         padding: 8,

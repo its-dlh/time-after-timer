@@ -12,6 +12,7 @@ declare global {
 }
 
 export interface TimerConfig {
+  id: number;
   minutes: number;
   seconds: number;
 }
