@@ -1,15 +1,17 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { Button, StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import TimerInput from '../components/TimerInput';
 
-export default function CreateTimersScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function CreateTimersScreen() {
     return (
         <View style={styles.container}>
             <TimerInput/>
-            <TimerInput/>
+            
+            <View style={styles.addButtonWrapper}>
+                <Button onPress={() => {}} title="+"/>
+            </View>
         </View>
     );
 }
@@ -20,9 +22,10 @@ const styles = StyleSheet.create({
         // flexDirection: 'column',
         // alignItems: 'center',
         justifyContent: 'flex-start',
+        paddingHorizontal: 8
     },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
+    addButtonWrapper: {
+        width: 48,
+        alignSelf: 'flex-end'
     }
 });

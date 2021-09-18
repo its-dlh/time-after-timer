@@ -4,6 +4,7 @@
  */
 
 
+
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -14,3 +15,9 @@ export interface TimerConfig {
   minutes: number;
   seconds: number;
 }
+
+export type RootStackParamList = {
+  Root: undefined;
+  Modal: undefined;
+  NotFound: undefined;
+};

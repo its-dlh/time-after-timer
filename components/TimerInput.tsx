@@ -65,19 +65,19 @@ const styles = StyleSheet.create({
         elevation: 3,
         padding: 8,
         marginVertical: 8,
-        marginHorizontal: 8,
         flex: 0,
         flexDirection: 'row'
     },
     inputContainer: {
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         flexDirection: 'row',
         // marginHorizontal: 50,
         flex: 1,
     },
     numberInput: {
-        flex: 1,
+        width: 64,
+        paddingVertical: 8,
         textAlign: 'center',
         marginHorizontal: 8,
         borderRadius: 8,
