@@ -15,7 +15,7 @@ export default function TimerInput({ timer, onChange }: TimerInputProps) {
     const [minutes, setMinutes] = useState(`${timer?.minutes || 0}`);
     const [seconds, setSeconds] = useState(`${timer?.seconds || 0}`);
 
-    function updateTimer() {
+    function updateTimer(minutes: string, seconds: string) {
         let numMinutes = parseInt(minutes) || 0;
         let numSeconds = parseInt(seconds) || 0;
 
@@ -40,12 +40,12 @@ export default function TimerInput({ timer, onChange }: TimerInputProps) {
 
     function updateMinutes(minutes: string) {
         setMinutes(minutes);
-        updateTimer();
+        updateTimer(minutes, seconds);
     }
 
     function updateSeconds(seconds: string) {
         setSeconds(seconds);
-        updateTimer();
+        updateTimer(minutes, seconds);
     }
 
     return (
