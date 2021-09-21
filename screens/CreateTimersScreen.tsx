@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, ScrollView, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { scheduleNotificationAsync } from 'expo-notifications';
+// import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Text, View } from '../components/Themed';
 import TimerInput from '../components/TimerInput';
@@ -15,12 +15,28 @@ export default function CreateTimersScreen() {
 
     function addTimer() {
         setTimers(timers => ([...timers, {...defaultTimer}]))
+        
+        scheduleNotificationAsync({
+            content: {
+                title: "You've got mail!",
+                body: 'Here is the notification body',
+                data: { data: 'goes here' },
+            },
+            trigger: { seconds: 10 },
+        });
     }
 
     const updateTimer = (i: number, timer: TimerConfig) => {
         let newTimers = [...timers];
         newTimers[i] = timer;
-        console.log('newTimers', newTimers);
+        // console.log('newTimers', newTimers);
+        setTimers(newTimers);
+    }
+    
+    const deleteTimer = (i: number) => {
+        let newTimers = [...timers];
+        newTimers.splice(i, 1);
+        // console.log('newTimers', newTimers);
         setTimers(newTimers);
     }
 
@@ -41,19 +57,21 @@ export default function CreateTimersScreen() {
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {timers.map((timer, i) =>
-                    <TimerInput timer={timer} key={i} onChange={timer => updateTimer(i, timer)} />
+                    <TimerInput
+                        timer={timer}
+                        key={i}
+                        onChange={timer => updateTimer(i, timer)}
+                        onDelete={() => deleteTimer(i)} />
                 )}
+                
+                <View style={styles.totals}>
+                    <Text>
+                        Total time: { totals.minutes }:{ totals.seconds }
+                    </Text>
+                </View>
                 
                 <View style={styles.addButtonWrapper}>
                     <Button onPress={addTimer} title="+"/>
-                </View>
-
-                <View>
-                    <Text>
-                        Total time:
-                        { totals.minutes } min,
-                        { totals.seconds } sec
-                    </Text>
                 </View>
             </ScrollView>
         </View>
@@ -76,5 +94,8 @@ const styles = StyleSheet.create({
     addButtonWrapper: {
         width: 48,
         alignSelf: 'flex-end'
+    },
+    totals: {
+        backgroundColor: 'transparent'
     }
 });

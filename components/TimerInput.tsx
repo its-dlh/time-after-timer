@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
 import { TimerConfig } from '../types';
@@ -8,10 +8,11 @@ import { Text, View } from './Themed';
 
 export interface TimerInputProps {
     timer?: TimerConfig,
-    onChange?: (timer: TimerConfig) => any
+    onChange?: (timer: TimerConfig) => any,
+    onDelete?: () => void
 }
 
-export default function TimerInput({ timer, onChange }: TimerInputProps) {
+export default function TimerInput({ timer, onChange, onDelete }: TimerInputProps) {
     const [minutes, setMinutes] = useState(`${timer?.minutes || 0}`);
     const [seconds, setSeconds] = useState(`${timer?.seconds || 0}`);
 
@@ -29,7 +30,7 @@ export default function TimerInput({ timer, onChange }: TimerInputProps) {
         if (numSeconds < 0) numSeconds = 0;
 
         if (onChange) {
-            console.log('firing onChange', {numMinutes, numSeconds});
+            // console.log('firing onChange', {numMinutes, numSeconds});
 
             onChange({
                 minutes: numMinutes,
@@ -63,7 +64,7 @@ export default function TimerInput({ timer, onChange }: TimerInputProps) {
                     style={styles.inputLabel}
                     lightColor="rgba(0,0,0,0.8)"
                     darkColor="rgba(255,255,255,0.8)">
-                    Minutes
+                    m
                 </Text>
             </View>
 
@@ -80,8 +81,12 @@ export default function TimerInput({ timer, onChange }: TimerInputProps) {
                     style={styles.inputLabel}
                     lightColor="rgba(0,0,0,0.8)"
                     darkColor="rgba(255,255,255,0.8)">
-                    Seconds
+                    s
                 </Text>
+            </View>
+            
+            <View style={styles.buttonContainer}>
+                <Button onPress={ onDelete || (() => {}) } color="red" title="Delete"/>
             </View>
         </View>
     );
@@ -106,7 +111,12 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         flexDirection: 'row',
         // marginHorizontal: 50,
+        flex: 0,
+    },
+    buttonContainer: {
         flex: 1,
+        justifyContent: 'flex-end',
+        flexDirection: 'row'
     },
     numberInput: {
         width: 64,
