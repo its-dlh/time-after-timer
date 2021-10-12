@@ -58,6 +58,7 @@ export default function TimerInput({ timer, onChange, onDelete }: TimerInputProp
                     onChangeText={updateMinutes}
                     defaultValue={minutes}
                     maxLength={10}  //setting limit of input
+                    clearTextOnFocus
                 />
                 
                 <Text

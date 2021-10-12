@@ -3,6 +3,8 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 
 
 declare global {
@@ -19,6 +21,9 @@ export interface TimerConfig {
 
 export type RootStackParamList = {
   Root: undefined;
-  Modal: undefined;
+  CreateTimers: { title: string };
+  RunTimers: { timers: TimerConfig[] },
   NotFound: undefined;
 };
+
+export type ScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<RootStackParamList, T>;

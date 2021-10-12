@@ -5,12 +5,12 @@ import { scheduleNotificationAsync } from 'expo-notifications';
 
 import { Text, View } from '../components/Themed';
 import TimerInput from '../components/TimerInput';
-import { ScreenProps, TimerConfig } from '../types';
+import { TimerConfig } from '../types';
 
 const defaultTimer = {minutes: 0, seconds: 0};
 // let latestId = 0;
 
-export default function CreateTimersScreen({navigation}: ScreenProps<'CreateTimers'>) {
+export default function RunTimersScreen() {
     const [timers, setTimers] = useState<TimerConfig[]>([{...defaultTimer}]);
 
     function addTimer() {
@@ -71,10 +71,8 @@ export default function CreateTimersScreen({navigation}: ScreenProps<'CreateTime
                 </View>
                 
                 <View style={styles.addButtonWrapper}>
-                    <Button onPress={addTimer} title="+" color="#23df12"/>
+                    <Button onPress={addTimer} title="+"/>
                 </View>
-                
-                <Button onPress={() => navigation.navigate('RunTimers', { timers })} title="Run Timers" />
             </ScrollView>
         </View>
     );
@@ -95,8 +93,7 @@ const styles = StyleSheet.create({
     },
     addButtonWrapper: {
         width: 48,
-        alignSelf: 'flex-end',
-        marginBottom: 24
+        alignSelf: 'flex-end'
     },
     totals: {
         backgroundColor: 'transparent'

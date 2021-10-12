@@ -16,6 +16,8 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import CreateTimersScreen from '../screens/CreateTimersScreen';
 // import { RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import RunTimersScreen from '../screens/RunTimersScreen';
+import { RootStackParamList } from '../types';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -31,12 +33,13 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
  */
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
     <Stack.Navigator initialRouteName="CreateTimers">
       <Stack.Screen name="CreateTimers" component={CreateTimersScreen} options={{ title: "Create Timers" }} />
+      <Stack.Screen name="RunTimers" component={RunTimersScreen} options={{ title: "Run Timers" }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
