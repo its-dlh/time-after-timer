@@ -5,40 +5,15 @@ import { scheduleNotificationAsync } from 'expo-notifications';
 
 import { Text, View } from '../components/Themed';
 import TimerInput from '../components/TimerInput';
-import { TimerConfig } from '../types';
+import { ScreenProps, TimerConfig } from '../types';
+import TimerDisplay from '../components/TimerDisplay';
 
 const defaultTimer = {minutes: 0, seconds: 0};
 // let latestId = 0;
 
-export default function RunTimersScreen() {
-    const [timers, setTimers] = useState<TimerConfig[]>([{...defaultTimer}]);
-
-    function addTimer() {
-        setTimers(timers => ([...timers, {...defaultTimer}]))
-        
-        scheduleNotificationAsync({
-            content: {
-                title: "You've got mail!",
-                body: 'Here is the notification body',
-                data: { data: 'goes here' },
-            },
-            trigger: { seconds: 10 },
-        });
-    }
-
-    const updateTimer = (i: number, timer: TimerConfig) => {
-        let newTimers = [...timers];
-        newTimers[i] = timer;
-        // console.log('newTimers', newTimers);
-        setTimers(newTimers);
-    }
-    
-    const deleteTimer = (i: number) => {
-        let newTimers = [...timers];
-        newTimers.splice(i, 1);
-        // console.log('newTimers', newTimers);
-        setTimers(newTimers);
-    }
+export default function RunTimersScreen({route, navigation}: ScreenProps<'RunTimers'>) {
+    const timers = route.params.timers;
+    const [currentTimerIdx, setCurrentTimerIdx] = useState(0);
 
     let totals = timers.reduce(
         (prevTotals, timer) => ({
@@ -52,16 +27,16 @@ export default function RunTimersScreen() {
         totals.seconds -= 60;
         totals.minutes++;
     }
+    
+    const cancelTimers = () => {
+        navigation.goBack();
+    }
 
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {timers.map((timer, i) =>
-                    <TimerInput
-                        timer={timer}
-                        key={i}
-                        onChange={timer => updateTimer(i, timer)}
-                        onDelete={() => deleteTimer(i)} />
+                    <TimerDisplay timer={timer} key={i} isRunning={i === currentTimerIdx} isFinished={false} />
                 )}
                 
                 <View style={styles.totals}>
@@ -70,8 +45,8 @@ export default function RunTimersScreen() {
                     </Text>
                 </View>
                 
-                <View style={styles.addButtonWrapper}>
-                    <Button onPress={addTimer} title="+"/>
+                <View style={styles.cancelButtonWrapper}>
+                    <Button onPress={cancelTimers} title="Cancel" color="red"/>
                 </View>
             </ScrollView>
         </View>
@@ -91,9 +66,9 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
         // backgroundColor: '#fff'
     },
-    addButtonWrapper: {
-        width: 48,
-        alignSelf: 'flex-end'
+    cancelButtonWrapper: {
+        // width: 48,
+        // alignSelf: 'flex-end'
     },
     totals: {
         backgroundColor: 'transparent'
