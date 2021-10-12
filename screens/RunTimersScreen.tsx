@@ -31,12 +31,16 @@ export default function RunTimersScreen({route, navigation}: ScreenProps<'RunTim
     const cancelTimers = () => {
         navigation.goBack();
     }
+    
+    const onTimerFinished = (timerIdx: number) => {
+        setCurrentTimerIdx(timerIdx + 1);
+    }
 
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {timers.map((timer, i) =>
-                    <TimerDisplay timer={timer} key={i} isRunning={i === currentTimerIdx} isFinished={false} />
+                    <TimerDisplay timer={timer} key={i} isRunning={i === currentTimerIdx} isFinished={i < currentTimerIdx} onFinished={() => onTimerFinished(i)} />
                 )}
                 
                 <View style={styles.totals}>
